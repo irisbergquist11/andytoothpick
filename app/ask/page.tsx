@@ -12,14 +12,7 @@ type Sparkle = {
 };
 
 export default function AskPage() {
-  const router = useRouter();
-  const frameRef = React.useRef<HTMLDivElement | null>(null);
-  const [scale, setScale] = React.useState(1);
-
-  const DESIGN_W = 579;
-  const DESIGN_H = 1256;
-
-  // Load Rubik Bubbles (if not loaded globally)
+  // Load Rubik Bubbles once
   React.useEffect(() => {
     const id = "rubik-bubbles-font";
     if (document.getElementById(id)) return;
@@ -31,20 +24,77 @@ export default function AskPage() {
     document.head.appendChild(link);
   }, []);
 
-  React.useLayoutEffect(() => {
-    const el = frameRef.current;
-    if (!el) return;
+  return (
+    <main
+      style={{
+        background: "#8C7C6F",
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 390,
+          height: "100vh",
+          position: "relative",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "60px 20px 80px",
+          boxSizing: "border-box",
+        }}
+      >
+        {/* Broccoli */}
+        <img
+          src="/broccoly.png"
+          alt="Broccoli bouquet"
+          style={{
+            width: 300,
+            height: "auto",
+            userSelect: "none",
+            pointerEvents: "none",
+          }}
+        />
 
-    const update = () => {
-      const w = el.getBoundingClientRect().width;
-      setScale(w / DESIGN_W);
-    };
+        {/* Text */}
+        <div style={{ textAlign: "center" }}>
+          <WouldYouLikeToBeMyValentine />
+        </div>
 
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
+        {/* Buttons */}
+        <AskButtons />
+      </div>
+    </main>
+  );
+}
 
+function WouldYouLikeToBeMyValentine() {
+  return (
+    <div
+      style={{
+        fontFamily: "'Rubik Bubbles', system-ui",
+        fontSize: 36,
+        lineHeight: "normal",
+        fontStyle: "normal",
+        color: "#FCEFA2",
+        whiteSpace: "pre-wrap",
+      }}
+    >
+      <div>Would</div>
+      <div>you like</div>
+      <div>to be</div>
+      <div>my</div>
+      <div style={{ color: "#FD9ACD" }}>valentine?</div>
+    </div>
+  );
+}
+
+function AskButtons() {
+  const router = useRouter();
   const [sparkles, setSparkles] = React.useState<Sparkle[]>([]);
 
   function createSparkles(e: React.MouseEvent<HTMLButtonElement>) {
@@ -62,7 +112,7 @@ export default function AskPage() {
 
     setSparkles(newSparkles);
 
-    setTimeout(() => {
+    window.setTimeout(() => {
       router.push("/plan");
     }, 700);
   }
@@ -86,100 +136,14 @@ export default function AskPage() {
   };
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#8C7C6F",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: 0,
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        ref={frameRef}
-        style={{
-          width: "100%",
-          maxWidth: 390,
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          overflow: "visible",
-        }}
-      >
-        <div
-          style={{
-            width: DESIGN_W,
-            height: DESIGN_H,
-            position: "relative",
-            transformOrigin: "top left",
-            transform: `scale(${scale})`,
-          }}
-        >
-          {/* Broccoli illustration */}
-          <img
-            src="/broccoly.png"
-            alt="Broccoli bouquet"
-            style={{
-              width: 2000,
-              height: "1256",
-              position: "absolute",
-              left: -140,
-              top: -170,
-              pointerEvents: "none",
-              userSelect: "none",
-            }}
-          />
-
-          {/* Question text */}
-          <div
-            style={{
-              position: "absolute",
-              left: 135,
-              top: 79,
-              width: 240,
-              height: 214,
-              fontFamily: "'Rubik Bubbles', system-ui",
-              fontSize: 36,
-              lineHeight: 1.05,
-              color: "#FCEFA2",
-              textAlign: "center",
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            <div>Would</div>
-            <div>you like</div>
-            <div>to be</div>
-            <div>my</div>
-            <div style={{ color: "#FD9ACD" }}>valentine?</div>
-          </div>
-
-          {/* Buttons */}
-          <div
-            style={{
-              position: "absolute",
-              left: -11,
-              top: 470,
-              width: 386,
-              height: 219,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 50,
-            }}
-          >
-            <button onClick={createSparkles} style={buttonStyle}>
-              yes
-            </button>
-
-            <button onClick={createSparkles} style={buttonStyle}>
-              yes
-            </button>
-          </div>
-        </div>
+    <div style={{ position: "relative", width: "100%" }}>
+      <div style={{ display: "flex", gap: 50, justifyContent: "center" }}>
+        <button onClick={createSparkles} style={buttonStyle}>
+          yes
+        </button>
+        <button onClick={createSparkles} style={buttonStyle}>
+          yes
+        </button>
       </div>
 
       {/* Sparkles */}
@@ -209,6 +173,6 @@ export default function AskPage() {
           }
         `}
       </style>
-    </main>
+    </div>
   );
 }
