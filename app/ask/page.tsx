@@ -34,39 +34,62 @@ export default function AskPage() {
         alignItems: "center",
       }}
     >
+      {/* Mobile canvas */}
       <div
         style={{
-          width: "100%",
-          maxWidth: 390,
+          width: 390,
           height: "100vh",
+          maxHeight: 844,
           position: "relative",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "60px 20px 80px",
-          boxSizing: "border-box",
+          overflow: "hidden",
         }}
       >
-        {/* Broccoli */}
+        {/* Broccoli artwork (positioned like Figma export) */}
         <img
           src="/broccoly.png"
           alt="Broccoli bouquet"
           style={{
-            width: 300,
-            height: "auto",
+            position: "absolute",
+            left: -146,
+            top: -200,
+            width: 579,
+            height: 1256,
+            objectFit: "cover",
             userSelect: "none",
             pointerEvents: "none",
           }}
         />
 
-        {/* Text */}
-        <div style={{ textAlign: "center" }}>
+        {/* Text (top) */}
+        <div
+          style={{
+            position: "absolute",
+            top: 79,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 240,
+            textAlign: "left",
+          }}
+        >
           <WouldYouLikeToBeMyValentine />
         </div>
 
-        {/* Buttons */}
-        <AskButtons />
+        {/* Buttons group (lower) */}
+        <div
+          style={{
+            position: "absolute",
+            top: 578,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: 386,
+            height: 219,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <AskButtons />
+        </div>
       </div>
     </main>
   );
@@ -82,6 +105,7 @@ function WouldYouLikeToBeMyValentine() {
         fontStyle: "normal",
         color: "#FCEFA2",
         whiteSpace: "pre-wrap",
+        width: 240,
       }}
     >
       <div>Would</div>
@@ -137,7 +161,14 @@ function AskButtons() {
 
   return (
     <div style={{ position: "relative", width: "100%" }}>
-      <div style={{ display: "flex", gap: 50, justifyContent: "center" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: 50,
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <button onClick={createSparkles} style={buttonStyle}>
           yes
         </button>
@@ -158,7 +189,10 @@ function AskButtons() {
             fontSize: 20,
             transform: "translate(-50%, -50%)",
             animation: "sparkleMove 0.7s ease-out forwards",
-            ...( { ["--dx" as any]: `${s.dx}px`, ["--dy" as any]: `${s.dy}px` } as any ),
+            ...({
+              ["--dx" as any]: `${s.dx}px`,
+              ["--dy" as any]: `${s.dy}px`,
+            } as any),
           }}
         >
           ✨
